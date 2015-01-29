@@ -1,4 +1,4 @@
-package ar.com.symsys.mobile.android.triplogger.ar.com.symsys.mobile.android.triplogger.storage;
+package ar.com.symsys.mobile.android.triplogger.storage;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

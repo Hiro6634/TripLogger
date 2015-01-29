@@ -1,4 +1,4 @@
-package ar.com.symsys.mobile.android.triplogger.ar.com.symsys.mobile.android.triplogger.storage;
+package ar.com.symsys.mobile.android.triplogger.storage;
 
 /**
  * Created by hsuyama on 28/01/2015.
