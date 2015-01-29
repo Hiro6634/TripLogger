@@ -5,7 +5,7 @@ import android.text.format.Time;
 /**
  * Created by hsuyama on 28/01/2015.
  */
-public class TripLog {
+public class LogElement {
     private int     _LogId;
     private int     _TripId;
     private int     _Odometer;

@@ -1,13 +1,21 @@
 package ar.com.symsys.mobile.android.triplogger.storage;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.util.ResourceBundle;
 
 /**
  * Created by hsuyama on 28/01/2015.
  */
-public class LogsSQLiteHelper extends SQLiteOpenHelper{
+public class TripsSQLiteHelper extends SQLiteOpenHelper{
     private static final String		dbName 		= "TripLogDB";
     private static final int		dbVersion 	= 1;
 
@@ -21,7 +29,7 @@ public class LogsSQLiteHelper extends SQLiteOpenHelper{
             + LogsTableSchema.TIMESTAMP	    + " INTEGER )";
 
 
-    public LogsSQLiteHelper(Context context) {
+    public TripsSQLiteHelper(Context context) {
         super(context, dbName, null, dbVersion);
     }
 
@@ -32,7 +40,24 @@ public class LogsSQLiteHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + LogsTableSchema.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TripsTableSchema.TABLE_NAME);
         db.execSQL(sqlCreateTripLogs);
+    }
+
+    protected String parseXml(Context context){
+        try{
+            StringBuilder   sb = new StringBuilder(500);
+            sb.append("INSERT INTO " + TripsTableSchema.TABLE_NAME + " VALUES (");
+            XmlPullParserFactory xppFactory = XmlPullParserFactory.newInstance();
+            xppFactory.setNamespaceAware(true);
+            XmlPullParser xpp = xppFactory.newPullParser();
+
+
+            );
+
+        }
+        catch(Exception e){
+
+        }
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="TripLogDB">
+    <table name="Trips">
+        <column name="TripId">1</column>
+        <column name="TripName">Patagonia 2015</column>
+        <column name="StartTrip">0</column>
+        <column name="EndTrip">0</column>
+        <column name="TotalGas">0</column>
+        <column name="Amount">0</column>
+        <column name="TimeStamp">0</column>
+    </table>
+</database>

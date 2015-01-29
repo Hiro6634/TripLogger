@@ -4,9 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.text.format.Time;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +13,13 @@ import java.util.List;
  * Created by hsuyama on 28/01/2015.
  */
 public class LogsDataSource {
-    private LogsSQLiteHelper logsSQLiteHelper;
+    private TripsSQLiteHelper logsSQLiteHelper;
     private SQLiteDatabase   database;
     private Context          context;
 
     public LogsDataSource( Context context ){
         this.context = context;
-        logsSQLiteHelper = new LogsSQLiteHelper(context);
+        logsSQLiteHelper = new TripsSQLiteHelper(context);
     }
 
     public void openDataBase(){ database = logsSQLiteHelper.getWritableDatabase(); }
@@ -32,20 +30,20 @@ public class LogsDataSource {
         }
     }
 
-    public void addLog( TripLog tripLog ){
+    public void addLog( LogElement logElement){
         synchronized (this){
             try{
                 openDataBase();
 
                 ContentValues values = new ContentValues();
 
-                values.put(LogsTableSchema.LOGID,       tripLog.get_LogId());
-                values.put(LogsTableSchema.TRIPID,      tripLog.get_TripId());
-                values.put(LogsTableSchema.ODOMETER,    tripLog.get_Odometer());
-                values.put(LogsTableSchema.GAS,         tripLog.get_Gas());
-                values.put(LogsTableSchema.PRICE,       tripLog.get_Price());
-                values.put(LogsTableSchema.DESCRIPTION, tripLog.get_Description());
-                values.put(LogsTableSchema.TIMESTAMP,   tripLog.get_TimeStamp().toMillis(true));
+                values.put(LogsTableSchema.LOGID,       logElement.get_LogId());
+                values.put(LogsTableSchema.TRIPID,      logElement.get_TripId());
+                values.put(LogsTableSchema.ODOMETER,    logElement.get_Odometer());
+                values.put(LogsTableSchema.GAS,         logElement.get_Gas());
+                values.put(LogsTableSchema.PRICE,       logElement.get_Price());
+                values.put(LogsTableSchema.DESCRIPTION, logElement.get_Description());
+                values.put(LogsTableSchema.TIMESTAMP,   logElement.get_TimeStamp().toMillis(true));
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -61,8 +59,8 @@ public class LogsDataSource {
         }
     }
 
-    public List<TripLog> getAllLogs( int tripId  ){
-        ArrayList<TripLog> tripLog = new ArrayList<TripLog>();
+    public List<LogElement> getAllLogs( int tripId  ){
+        ArrayList<LogElement> logElement = new ArrayList<LogElement>();
         synchronized (this){
             try{
                 openDataBase();
@@ -75,7 +73,7 @@ public class LogsDataSource {
                 if(cursor.moveToFirst()){
                     while(!cursor.isAfterLast()){
                         if( cursor.getInt(LogsTableSchema.colTRIPID) == tripId) {
-                            tripLog.add(readCursor(cursor));
+                            logElement.add(readCursor(cursor));
                         }
                         cursor.moveToNext();
                     }
@@ -93,21 +91,21 @@ public class LogsDataSource {
                 }
             }
         }
-        return tripLog;
+        return logElement;
     }
 
-    private TripLog readCursor(Cursor cursor) {
-        TripLog         tripLog = new TripLog();
+    private LogElement readCursor(Cursor cursor) {
+        LogElement logElement = new LogElement();
         Time            time = new Time();
 
-        tripLog.set_LogId(              cursor.getInt(          LogsTableSchema.colLOGID));
-        tripLog.set_TripId(cursor.getInt(LogsTableSchema.colTRIPID));
-        tripLog.set_Odometer(cursor.getInt(LogsTableSchema.colODOMETER));
-        tripLog.set_Gas(cursor.getFloat(LogsTableSchema.colGAS));
-        tripLog.set_Price(cursor.getFloat(LogsTableSchema.colPRICE));
-        tripLog.set_Description(cursor.getString(LogsTableSchema.colDESCRIPTION));
+        logElement.set_LogId(              cursor.getInt(          LogsTableSchema.colLOGID));
+        logElement.set_TripId(cursor.getInt(LogsTableSchema.colTRIPID));
+        logElement.set_Odometer(cursor.getInt(LogsTableSchema.colODOMETER));
+        logElement.set_Gas(cursor.getFloat(LogsTableSchema.colGAS));
+        logElement.set_Price(cursor.getFloat(LogsTableSchema.colPRICE));
+        logElement.set_Description(cursor.getString(LogsTableSchema.colDESCRIPTION));
         time.set(cursor.getInt(LogsTableSchema.colTIMESTAMP));
-        tripLog.set_TimeStamp( time );
-        return tripLog;
+        logElement.set_TimeStamp( time );
+        return logElement;
     }
 }
